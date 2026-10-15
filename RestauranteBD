@@ -1,0 +1,282 @@
+USE [master]
+GO
+/****** Objeto: Database [Restaurante] Fecha de script: 14/10/2026 19:32:14 ******/
+CREATE DATABASE [Restaurante]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Restaurante', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL17.MSSQLSERVER\MSSQL\DATA\Restaurante.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Restaurante_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL17.MSSQLSERVER\MSSQL\DATA\Restaurante_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [Restaurante] SET COMPATIBILITY_LEVEL = 170
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Restaurante].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Restaurante] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Restaurante] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Restaurante] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Restaurante] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Restaurante] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Restaurante] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Restaurante] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Restaurante] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Restaurante] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Restaurante] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Restaurante] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Restaurante] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Restaurante] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Restaurante] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Restaurante] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Restaurante] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Restaurante] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Restaurante] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Restaurante] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Restaurante] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Restaurante] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Restaurante] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Restaurante] SET RECOVERY FULL 
+GO
+ALTER DATABASE [Restaurante] SET  MULTI_USER 
+GO
+ALTER DATABASE [Restaurante] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Restaurante] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Restaurante] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Restaurante] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Restaurante] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [Restaurante] SET OPTIMIZED_LOCKING = OFF 
+GO
+ALTER DATABASE [Restaurante] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [Restaurante] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [Restaurante] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [Restaurante]
+GO
+/****** Objeto: Table [dbo].[Clientes] Fecha de script: 14/10/2026 19:32:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Clientes](
+	[IdClient] [int] NOT NULL,
+	[Nombre] [varchar](30) NULL,
+	[Telf] [varchar](12) NULL,
+	[Correo] [varchar](50) NULL,
+ CONSTRAINT [PK_Clientes] PRIMARY KEY CLUSTERED 
+(
+	[IdClient] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Objeto: Table [dbo].[Detallepedid] Fecha de script: 14/10/2026 19:32:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Detallepedid](
+	[IdProduc] [int] NULL,
+	[Idpedido] [int] NULL,
+	[Cantidad] [int] NULL,
+	[Precio] [decimal](18, 0) NULL
+) ON [PRIMARY]
+GO
+/****** Objeto: Table [dbo].[Empleados] Fecha de script: 14/10/2026 19:32:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Empleados](
+	[IdEmpleado] [int] NOT NULL,
+	[Nombre] [varchar](10) NULL,
+	[Apellido] [varchar](10) NULL,
+	[Cargo] [varchar](30) NULL,
+	[Telefono] [varchar](11) NULL,
+	[Salario] [decimal](18, 0) NULL,
+	[FechContratacion] [date] NULL,
+ CONSTRAINT [PK_Empleados] PRIMARY KEY CLUSTERED 
+(
+	[IdEmpleado] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Objeto: Table [dbo].[Factura] Fecha de script: 14/10/2026 19:32:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Factura](
+	[IdFactura] [int] NOT NULL,
+	[IdPedido] [int] NULL,
+	[FechaFactura] [date] NULL,
+	[IVA] [decimal](18, 0) NULL,
+	[Totalpagar] [decimal](18, 0) NULL,
+	[IdFormPago] [varchar](7) NULL,
+	[IdEmpleado] [int] NULL,
+ CONSTRAINT [PK_Factura] PRIMARY KEY CLUSTERED 
+(
+	[IdFactura] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Objeto: Table [dbo].[FormaPago] Fecha de script: 14/10/2026 19:32:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[FormaPago](
+	[IdFormPago] [varchar](7) NOT NULL,
+	[Nombre] [varchar](30) NULL,
+	[Descrip] [varchar](70) NULL,
+ CONSTRAINT [PK_FormaPago] PRIMARY KEY CLUSTERED 
+(
+	[IdFormPago] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Objeto: Table [dbo].[Mesas] Fecha de script: 14/10/2026 19:32:15 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Mesas](
+	[IdMesa] [int] NOT NULL,
+	[Numesa] [varchar](19) NULL,
+	[Capacidad] [varchar](20) NULL,
+	[Estado] [varchar](20) NULL,
+ CONSTRAINT [PK_Mesas] PRIMARY KEY CLUSTERED 
+(
+	[IdMesa] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Objeto: Table [dbo].[Pedidos] Fecha de script: 14/10/2026 19:32:15 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Pedidos](
+	[IdPedido] [int] NOT NULL,
+	[IdClient] [int] NULL,
+	[IdMesa] [int] NULL,
+	[Fecha] [date] NULL,
+	[IdProduc] [int] NULL,
+	[IdformPago] [varchar](7) NULL,
+	[Total] [decimal](18, 0) NULL,
+	[IdEmpleado] [int] NULL,
+ CONSTRAINT [PK_Pedidos] PRIMARY KEY CLUSTERED 
+(
+	[IdPedido] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Objeto: Table [dbo].[Producto] Fecha de script: 14/10/2026 19:32:15 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Producto](
+	[IdProduc] [int] NOT NULL,
+	[Nombre] [varchar](50) NULL,
+	[Descrip] [varchar](70) NULL,
+	[Precio] [decimal](18, 0) NULL,
+	[Categoria] [varchar](30) NULL,
+ CONSTRAINT [PK_Producto] PRIMARY KEY CLUSTERED 
+(
+	[IdProduc] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Objeto: Table [dbo].[Reservaciones] Fecha de script: 14/10/2026 19:32:15 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Reservaciones](
+	[IdReserv] [int] NOT NULL,
+	[IdClient] [int] NULL,
+	[IdMesa] [int] NULL,
+	[Fecha] [date] NULL,
+	[Hora] [time](7) NULL,
+	[CantPers] [int] NULL,
+ CONSTRAINT [PK_Reservaciones] PRIMARY KEY CLUSTERED 
+(
+	[IdReserv] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Detallepedid]  WITH CHECK ADD  CONSTRAINT [FK_Detallepedid_Pedidos] FOREIGN KEY([Idpedido])
+REFERENCES [dbo].[Pedidos] ([IdPedido])
+GO
+ALTER TABLE [dbo].[Detallepedid] CHECK CONSTRAINT [FK_Detallepedid_Pedidos]
+GO
+ALTER TABLE [dbo].[Factura]  WITH CHECK ADD  CONSTRAINT [FK_Factura_FormaPago] FOREIGN KEY([IdFormPago])
+REFERENCES [dbo].[FormaPago] ([IdFormPago])
+GO
+ALTER TABLE [dbo].[Factura] CHECK CONSTRAINT [FK_Factura_FormaPago]
+GO
+ALTER TABLE [dbo].[Pedidos]  WITH CHECK ADD  CONSTRAINT [FK_Pedidos_Clientes] FOREIGN KEY([IdClient])
+REFERENCES [dbo].[Clientes] ([IdClient])
+GO
+ALTER TABLE [dbo].[Pedidos] CHECK CONSTRAINT [FK_Pedidos_Clientes]
+GO
+ALTER TABLE [dbo].[Pedidos]  WITH CHECK ADD  CONSTRAINT [FK_Pedidos_Empleados] FOREIGN KEY([IdEmpleado])
+REFERENCES [dbo].[Empleados] ([IdEmpleado])
+GO
+ALTER TABLE [dbo].[Pedidos] CHECK CONSTRAINT [FK_Pedidos_Empleados]
+GO
+ALTER TABLE [dbo].[Pedidos]  WITH CHECK ADD  CONSTRAINT [FK_Pedidos_FormaPago] FOREIGN KEY([IdformPago])
+REFERENCES [dbo].[FormaPago] ([IdFormPago])
+GO
+ALTER TABLE [dbo].[Pedidos] CHECK CONSTRAINT [FK_Pedidos_FormaPago]
+GO
+ALTER TABLE [dbo].[Pedidos]  WITH CHECK ADD  CONSTRAINT [FK_Pedidos_Mesas] FOREIGN KEY([IdMesa])
+REFERENCES [dbo].[Mesas] ([IdMesa])
+GO
+ALTER TABLE [dbo].[Pedidos] CHECK CONSTRAINT [FK_Pedidos_Mesas]
+GO
+ALTER TABLE [dbo].[Reservaciones]  WITH CHECK ADD  CONSTRAINT [FK_Reservaciones_Clientes] FOREIGN KEY([IdClient])
+REFERENCES [dbo].[Clientes] ([IdClient])
+GO
+ALTER TABLE [dbo].[Reservaciones] CHECK CONSTRAINT [FK_Reservaciones_Clientes]
+GO
+ALTER TABLE [dbo].[Reservaciones]  WITH CHECK ADD  CONSTRAINT [FK_Reservaciones_Mesas] FOREIGN KEY([IdMesa])
+REFERENCES [dbo].[Mesas] ([IdMesa])
+GO
+ALTER TABLE [dbo].[Reservaciones] CHECK CONSTRAINT [FK_Reservaciones_Mesas]
+GO
+USE [master]
+GO
+ALTER DATABASE [Restaurante] SET  READ_WRITE 
+GO
